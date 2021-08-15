@@ -48,7 +48,7 @@ function activate(context) {
 
 	console.log('Congratulations, your extension "boedit" is now active!');
 
-	let disposable = vscode.commands.registerCommand('boedit.edit', function () {
+	let disposable = vscode.commands.registerCommand('boedit.edit', async function () {
 		appelBoEdit(context) ;
 	});
 
@@ -69,7 +69,7 @@ module.exports = {
 //  A   A  P      P      EEEEE  LLLLL        W W   EEEEE  BBBB     V    III  EEEEE   W W
 // ========================================================================================
 // * * * Appel WebView boEdit
-function appelBoEdit(context) {
+async function appelBoEdit(context) {
 	vscode.window.showInformationMessage('boEdit départ !');
 
     // * * * * * * * * * * * * * * * * * * * * *
@@ -98,7 +98,7 @@ function appelBoEdit(context) {
         }
     );
     // * * * Alimentation du contenu html de base * * *
-    panel.webview.html = getWebviewContent(context, panel.webview) ;
+    panel.webview.html = await getWebviewContent(context, panel.webview) ;
 
     // * * * Gestion des messages entrants * * *
     panel.webview.onDidReceiveMessage(
@@ -108,6 +108,24 @@ function appelBoEdit(context) {
             case '1er Affichage':
                 clog('vsc texte', leTexte) ;
                 panel.webview.postMessage({action: message.action, contenu: leTexte})
+                break ;
+            case 'retour Donnees':
+                clog('vsc retour', message.contenu) ;
+                /*
+                try {
+                    // * * * Insertion des lignes * * * * * *
+                    // * Ligne en cours de selection + modif *
+                    let rg    = new vscode.Range(new vscode.Position(0, 0) , new vscode.Position(nbLig, 0))
+                    // * réactivation de l'éditeur *
+                    let rafTextEdit = await vscode.window.showTextDocument(vscode.window.activeTextEditor.document) ;
+                    // * Insertion des lignes *
+                    await rafTextEdit.edit( builder => { builder.replace(position, message.contenu) })  
+                } catch (error) {
+                    vscode.window.showErrorMessage('ITCE - Anomalie retrait - ' + marge + ' lg:' + nbLig.toString()) ;
+                    return
+                };
+                */
+                panel.dispose() ;
                 break ;
             default:
                 vscode.window.showErrorMessage('Message non traité : '+message.action);
@@ -160,19 +178,38 @@ function getWebviewContent(context, webview) {
         
         <textarea id="contenu" class="contenu" readonly="readonly" cols=80 rows=10></textarea>
 
-        <div id="trt">
+        <!-- Les champs à récupérer -->
+        <div id="donnees">
             <p>Rognage des blancs :
-                <select id="rogn" onchange="traitement()">
+                <select name="rogn" onchange="traitement()">
                     <option value="n" selected="selected">non</option>
                     <option value="g">gauche</option>
                     <option value="d">droite</option>
                     <option value="gd">totale</option>
                 </select>
+            <br />
+                <label for="="retirPar">Retirer les parenthèses</label>
+                <input name="retirPar" id="retirPar" type="checkbox" onchange="traitement()" />
+            </p>
+            <p>
+                <label for="rempl">Remplacer </label>
+                <input name="rempl" type="text" value="" size="20" onchange="traitement()" />
+                <label for="by"> par </label>
+                <input name="by" type="text" value="" size="20" onchange="traitement()" />
+            </p>
+            <p>
+                <label for="rtrtG">Retrait à gauche </label>
+                <input name="rtrtG" type="number" value="" size="3" onchange="traitement()" />
+                <label for="rtrtD"> Retrait à droite </label>
+                <input name="rtrtD" type="number" value="" size="3" onchange="traitement()" />
             </p>
 
-            <p><label for="final">Validation et application des modifications :</label>
-            <button name="final" id="final" type="button" onclick="traitement(true)" >OK</button>
         </div>
+
+        <!-- Bouton d'envoi -->
+        <p><label for="final">Validation et application des modifications :</label>
+        <button name="final" id="final" type="button" onclick="traitement(true)" >OK</button></p>
+
 
         <!-- Objet récupéré de vscode -->
         <script>

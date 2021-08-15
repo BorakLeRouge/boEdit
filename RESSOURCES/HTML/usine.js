@@ -74,6 +74,7 @@ let usine = {
     ,
     // * * Traitement * *
     traitement(param, final) {
+        clog('Traitement : param', param) ;
         if (final) { cont = this.contenu ; }
         else       { cont = this.contenuRed ; }
         let res = [] ;
@@ -81,11 +82,21 @@ let usine = {
         let i = 0 ;
         for (let lg of cont) {
             r = lg ;
-            // Rognage
+            // * * * Rognage * * *
             if(param.rogn == "g") { r = r.trimStart() ; }
             if(param.rogn == "d") { r = r.trimEnd() ; }
             if(param.rogn == "gd") { r = r.trim() ; }
-            // fin traitement
+            // * * * Retire Parenthese * * *
+            if(param.retirPar) { r = r.replaceAll('(', '').replaceAll(')', '') ; }
+            // * * * Remplacement * * *
+            if(param.rempl + param.by != '' ) { r = r.replaceAll(param.rempl, param.by) ; }
+            // * * * Retrait * * *
+            if(param.rtrtG > 0) { r = r.substr(param.rtrtG) ; } 
+            if(param.rtrtD > 0) { 
+                if (param.rtrtD > r.length) { r = '' ; }
+                else { r = r.substr(0, r.length - param.rtrtD) ; } 
+            }
+            // * * * fin traitement * * *
             res[i++] = r ;
         }
         this.contenuRes = res ;

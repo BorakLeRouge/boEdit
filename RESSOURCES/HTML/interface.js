@@ -58,10 +58,32 @@ window.addEventListener('message', event => {
 function traitement(final = false) {
     let param = recupDonnee() ;
     usine.traitement(param, final) ;
-    usine.affich() ;
+    if (final) {
+        // * * * retour * * *
+        vscode.postMessage({
+            action:  'retour Donnees'
+        ,   contenu:  usine.contenuAff
+        }) ;
+    } else {
+        usine.affich() ;
+    }
 }
 function recupDonnee() {
     let param = {} ;
-    param.rogn = document.getElementById('rogn').value ;
+    // * * * div donnée pour récupérer tous les champs * * *
+    let dv = document.getElementById('donnees') ;  
+    let tabElt = [] ;
+    tabElt = [ ...dv.getElementsByTagName('input') , ...dv.getElementsByTagName('select') ] ; 
+    // * * * Boucle pour alimenter les cles/valeurs * * *
+    for(let elt of tabElt) {
+        if (elt.name != undefined) {
+            if (elt.type == 'checkbox') {
+                param[elt.name] = elt.checked ;
+            } else {
+                param[elt.name] = elt.value ;
+            }
+        }
+    }
+    // * * * Retour des champs * * *
     return param ;
 }
