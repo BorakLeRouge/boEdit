@@ -13,7 +13,7 @@
   "activationEvents": [
     "onCommand:boedit.edit"
   ],
-  "main": "./extension.js",
+  "main": "./RESSOURCES/extension.js",
   "contributes": {
     "menus": {
        "editor/context": [{
