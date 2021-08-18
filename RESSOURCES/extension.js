@@ -75,12 +75,11 @@ async function appelBoEdit(context) {
     // * * * * * * * * * * * * * * * * * * * * *
 	// * * * Reception des lignes du texte * * *
     // * * * * * * * * * * * * * * * * * * * * *
-    let ligDebut = vscode.window.activeTextEditor.selection.start.line ; 
-    let ligFin   = vscode.window.activeTextEditor.selection.end.line ; 
+    let textEdit = vscode.window.activeTextEditor ;
+    let ligDebut = textEdit.selection.start.line ; 
+    let ligFin   = textEdit.selection.end.line ; 
 	let position = new vscode.Range(new vscode.Position(ligDebut, 0), new vscode.Position(ligFin + 1, 0)) ; 
-	let leTexte  = vscode.window.activeTextEditor.document.getText(position) ;  	
-	let leType   = vscode.window.activeTextEditor.document.languageId.toUpperCase() ;
-
+	let leTexte  = textEdit.document.getText(position) ;  	
     clog('BoEdit : leTexte', leTexte, ligDebut, ligFin) ;
 
     // * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -98,7 +97,7 @@ async function appelBoEdit(context) {
         }
     );
     // * * * Alimentation du contenu html de base * * *
-    panel.webview.html = await getWebviewContent(context, panel.webview) ;
+    panel.webview.html = getWebviewContent(context, panel.webview) ;
 
     // * * * Gestion des messages entrants * * *
     panel.webview.onDidReceiveMessage(
@@ -111,20 +110,10 @@ async function appelBoEdit(context) {
                 break ;
             case 'retour Donnees':
                 clog('vsc retour', message.contenu) ;
-                /*
-                try {
-                    // * * * Insertion des lignes * * * * * *
-                    // * Ligne en cours de selection + modif *
-                    let rg    = new vscode.Range(new vscode.Position(0, 0) , new vscode.Position(nbLig, 0))
-                    // * réactivation de l'éditeur *
-                    let rafTextEdit = await vscode.window.showTextDocument(vscode.window.activeTextEditor.document) ;
-                    // * Insertion des lignes *
-                    await rafTextEdit.edit( builder => { builder.replace(position, message.contenu) })  
-                } catch (error) {
-                    vscode.window.showErrorMessage('ITCE - Anomalie retrait - ' + marge + ' lg:' + nbLig.toString()) ;
-                    return
-                };
-                */
+                majEditeur(context, textEdit, position, message) ;
+                panel.dispose() ;
+                break ;
+            case 'annuler':
                 panel.dispose() ;
                 break ;
             default:
@@ -172,43 +161,72 @@ function getWebviewContent(context, webview) {
     </head>
     <body>
 
-        <h1>boEdit</h1>
-   
-        <p>Ca marche ? </p>
-        
+        <h1>boEdit - Traitements multi-lignes</h1>
+          
         <textarea id="contenu" class="contenu" readonly="readonly" cols=80 rows=10></textarea>
 
         <!-- Les champs à récupérer -->
         <div id="donnees">
-            <p>Rognage des blancs :
-                <select name="rogn" onchange="traitement()">
-                    <option value="n" selected="selected">non</option>
-                    <option value="g">gauche</option>
-                    <option value="d">droite</option>
-                    <option value="gd">totale</option>
-                </select>
-            <br />
-                <label for="="retirPar">Retirer les parenthèses</label>
-                <input name="retirPar" id="retirPar" type="checkbox" onchange="traitement()" />
-            </p>
-            <p>
-                <label for="rempl">Remplacer </label>
-                <input name="rempl" type="text" value="" size="20" onchange="traitement()" />
-                <label for="by"> par </label>
-                <input name="by" type="text" value="" size="20" onchange="traitement()" />
-            </p>
-            <p>
-                <label for="rtrtG">Retrait à gauche </label>
-                <input name="rtrtG" type="number" value="" size="3" onchange="traitement()" />
-                <label for="rtrtD"> Retrait à droite </label>
-                <input name="rtrtD" type="number" value="" size="3" onchange="traitement()" />
-            </p>
-
+            <fieldset><legend>Tavail sur lignes</legend>
+                <p><label for="rogn">Rognage des blancs : </label>
+                    <select name="rogn" onchange="traitement()">
+                        <option value="n" selected="selected">non</option>
+                        <option value="g">gauche</option>
+                        <option value="d">droite</option>
+                        <option value="gd">totale</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="="retirPar">Retirer les parenthèses</label>
+                    <input name="retirPar" id="retirPar" type="checkbox" onchange="traitement()" />
+                </p>
+                <p>
+                    <label for="rempl">Remplacer </label>
+                    <input name="rempl" type="text" value="" size="20" onchange="traitement()" />
+                    <label for="by"> par </label>
+                    <input name="by" type="text" value="" size="20" onchange="traitement()" />
+                </p>
+                <p>
+                    <label for="rtrtG">Retrait à gauche </label>
+                    <input name="rtrtG" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" />
+                    <label for="rtrtD"> Retrait à droite </label>
+                    <input name="rtrtD" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" />
+                </p>
+                <p>
+                    <label for="rogn2">Rognage des blancs après retrait: </label>
+                    <select name="rogn2" onchange="traitement()">
+                        <option value="n" selected="selected">non</option>
+                        <option value="g">gauche</option>
+                        <option value="d">droite</option>
+                        <option value="gd">totale</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="tronc">troncature et complément à </label>
+                    <input name="tronc" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" /> caractères
+                </p>
+                <p>
+                    <label for="ajtG">Ajout à Gauche </label>
+                    <input name="ajtG" type="text" value="" size="20" onchange="traitement()" />
+                    <label for="ajtD"> ajout à droite </label>
+                    <input name="ajtD" type="text" value="" size="20" onchange="traitement()" />
+                </p>
+            </fieldset>
+            <!-- 
+            <fieldset><legend>Travail sur sauts de ligne et tabulations</legend>
+                <p><label for="rsl">Remplacer sauts de ligne par </label>
+                <input name="rsl" type="text" value="" size="20" onchange="traitement()" />
+                <label for="rslLmt"> limité à </label>
+                <input name="rslLmt" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" /> caractères.
+                </p>
+            </fieldset>
+            -->
         </div>
 
         <!-- Bouton d'envoi -->
         <p><label for="final">Validation et application des modifications :</label>
-        <button name="final" id="final" type="button" onclick="traitement(true)" >OK</button></p>
+        <button name="final" id="final" type="button" onclick="traitement(true)" >OK</button>
+        <button name="final" id="final" type="button" onclick="annuler()" >Annuler</button></p>
 
 
         <!-- Objet récupéré de vscode -->
@@ -239,4 +257,27 @@ function getWebviewContent(context, webview) {
   
     </body>
     </html>`;
+}
+
+
+// ============================================================================================================================
+//  M   M  III   SSS   EEEEE         A           JJJ   OOO   U   U  RRRR        EEEEE  DDD    III  TTTTT  EEEEE  U   U  RRRR
+//  MM MM   I   S      E            A A           J   O   O  U   U  R   R       E      D  D    I     T    E      U   U  R   R
+//  M M M   I    SSS   EEE         A   A          J   O   O  U   U  R   R       EEE    D   D   I     T    EEE    U   U  R   R
+//  M   M   I       S  E           AAAAA          J   O   O  U   U  RRRR        E      D   D   I     T    E      U   U  RRRR
+//  M   M   I       S  E           A   A       J  J   O   O  U   U  R  R        E      D  D    I     T    E      U   U  R  R
+//  M   M  III  SSSS   EEEEE       A   A        JJ     OOO    UUU   R   R       EEEEE  DDD    III    T    EEEEE   UUU   R   R
+// ============================================================================================================================
+// * * * Mise à jour Editeur
+async function majEditeur(context, textEdit, position, message) {
+    try {   clog('maj demandée', textEdit, position, message) ;
+        // Raf de la fenetre editeur
+        let rafTextEdit = await vscode.window.showTextDocument(textEdit.document) ; clog('raf OK') ;
+        // * Insertion des lignes *
+        rafTextEdit.edit( builder => { builder.replace(position, message.contenu) })  ; clog('update') ;
+    } catch (error) {
+        clog('ERROR', error) ;
+        vscode.window.showErrorMessage('ITCE - Anomalie maj') ;
+        return
+    }
 }

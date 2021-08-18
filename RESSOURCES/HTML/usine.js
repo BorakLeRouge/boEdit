@@ -75,13 +75,14 @@ let usine = {
     // * * Traitement * *
     traitement(param, final) {
         clog('Traitement : param', param) ;
+        let cont ;
         if (final) { cont = this.contenu ; }
         else       { cont = this.contenuRed ; }
         let res = [] ;
         // boucle sur ligne
         let i = 0 ;
         for (let lg of cont) {
-            r = lg ;
+            let r = lg ;
             // * * * Rognage * * *
             if(param.rogn == "g") { r = r.trimStart() ; }
             if(param.rogn == "d") { r = r.trimEnd() ; }
@@ -96,6 +97,16 @@ let usine = {
                 if (param.rtrtD > r.length) { r = '' ; }
                 else { r = r.substr(0, r.length - param.rtrtD) ; } 
             }
+            // * * * Rognage 2 * * *
+            if(param.rogn2 == "g") { r = r.trimStart() ; }
+            if(param.rogn2 == "d") { r = r.trimEnd() ; }
+            if(param.rogn2 == "gd") { r = r.trim() ; }
+            // * * * Troncature et complément * * *
+            if(param.tronc > 0) { r = r.substr(0, param.tronc).padEnd(param.tronc, ' ') ; }  // 
+            // * * * Ajout * * *
+            if(param.ajtG.length > 0) { r = param.ajtG + r ; } 
+            if(param.ajtD.length > 0) { r = r + param.ajtD ; } 
+
             // * * * fin traitement * * *
             res[i++] = r ;
         }

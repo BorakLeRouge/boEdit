@@ -68,6 +68,12 @@ function traitement(final = false) {
         usine.affich() ;
     }
 }
+function annuler() {
+    vscode.postMessage({
+        action:  'annuler'
+    }) ;
+}
+
 function recupDonnee() {
     let param = {} ;
     // * * * div donnée pour récupérer tous les champs * * *
