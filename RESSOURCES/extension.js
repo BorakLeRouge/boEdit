@@ -234,23 +234,6 @@ function getWebviewContent(context, webview) {
         <!-- Objet récupéré de vscode -->
         <script>
             const vscode = acquireVsCodeApi() ;
-
-            function clog(...tb) {
-                if(tb.length == 1) {
-                    console.log(tb[0]);
-                } else {
-                    let first = true ;
-                    for (let c of tb) {
-                        if (first) {
-                            console.groupCollapsed(c) ;
-                            first = false ;
-                        } else {
-                            console.log(c) ;
-                    }   }  
-                    console.groupEnd() ;
-            }   }
-
-            clog ('debut HTML js') ;
         </script>
 
         <!-- Script de construction des pages -->
