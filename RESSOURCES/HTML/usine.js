@@ -35,15 +35,15 @@ function clog(...tb) {
 
 clog('usine') ;
 
-// ==============================================================================================================================
-//  U   U   SSS   III  N   N  EEEEE       DDD    EEEEE       TTTTT  RRRR     A    III  TTTTT  EEEEE  M   M  EEEEE  N   N  TTTTT
-//  U   U  S       I   NN  N  E           D  D   E             T    R   R   A A    I     T    E      MM MM  E      NN  N    T
-//  U   U   SSS    I   N N N  EEE         D   D  EEE           T    R   R  A   A   I     T    EEE    M M M  EEE    N N N    T
-//  U   U      S   I   N  NN  E           D   D  E             T    RRRR   AAAAA   I     T    E      M   M  E      N  NN    T
-//  U   U      S   I   N   N  E           D  D   E             T    R  R   A   A   I     T    E      M   M  E      N   N    T
-//   UUU   SSSS   III  N   N  EEEEE       DDD    EEEEE         T    R   R  A   A  III    T    EEEEE  M   M  EEEEE  N   N    T
-// ==============================================================================================================================
-// * * * Usine de traitement
+// ============================================================================================================================================================
+//  TTTTT  RRRR     A    N   N   SSS   FFFFF   OOO   RRRR   M   M    A    TTTTT  III   OOO   N   N       DDD    EEEEE       TTTTT  EEEEE  X   X  TTTTT  EEEEE
+//    T    R   R   A A   NN  N  S      F      O   O  R   R  MM MM   A A     T     I   O   O  NN  N       D  D   E             T    E       X X     T    E
+//    T    R   R  A   A  N N N   SSS   FFF    O   O  R   R  M M M  A   A    T     I   O   O  N N N       D   D  EEE           T    EEE      X      T    EEE
+//    T    RRRR   AAAAA  N  NN      S  F      O   O  RRRR   M   M  AAAAA    T     I   O   O  N  NN       D   D  E             T    E       X X     T    E
+//    T    R  R   A   A  N   N      S  F      O   O  R  R   M   M  A   A    T     I   O   O  N   N       D  D   E             T    E      X   X    T    E
+//    T    R   R  A   A  N   N  SSSS   F       OOO   R   R  M   M  A   A    T    III   OOO   N   N       DDD    EEEEE         T    EEEEE  X   X    T    EEEEE
+// ============================================================================================================================================================
+// * * * Transformation de texte
 
 
 // * * * Usine * * *
@@ -73,13 +73,14 @@ let usine = {
     }
     ,
     // * * Traitement * *
-    traitement(param, final) {
+    traitement(param, final, intermedaire) {
         clog('Traitement : param', param) ;
         let cont ;
-        if (final) { cont = this.contenu ; }
-        else       { cont = this.contenuRed ; }
+        if (final)             { cont = this.contenu ; }
+        else if (intermedaire) { cont = this.contenu ; }
+        else                   { cont = this.contenuRed ; }
         let res = [] ;
-        // boucle sur ligne
+        //  * * * boucle sur ligne -  traitement lignes / lignes * * *
         let i = 0 ;
         for (let lg of cont) {
             let r = lg ;
@@ -110,7 +111,11 @@ let usine = {
             // * * * fin traitement * * *
             res[i++] = r ;
         }
-        this.contenuRes = res ;
-        this.contenuAff = res.join("\r\n") ;
+        if (!intermedaire) {
+            this.contenuRes = res ;
+            this.contenuAff = res.join("\r\n") ;
+        } else {
+            this.setContenu(res.join("\r\n")) ;
+        }
     }
 }

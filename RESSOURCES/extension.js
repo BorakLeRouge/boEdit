@@ -224,10 +224,12 @@ function getWebviewContent(context, webview) {
         </div>
 
         <!-- Bouton d'envoi -->
-        <p><label for="final">Validation et application des modifications :</label>
-        <button name="final" id="final" type="button" onclick="traitement(true)" >OK</button>
-        <button name="final" id="final" type="button" onclick="annuler()" >Annuler</button></p>
-
+        <p class="centre">Actions :</p>
+        <p class="centre">
+        <button name="final" id="final" type="button" onclick="annuler()" >Annuler</button> 
+        <button name="final" id="final" type="button" onclick="traitement(false, true)" >Validation temporaire</button> 
+        <button name="final" id="final" type="button" onclick="traitement(true)" >Validation des mises à jour</button> 
+        </p>
 
         <!-- Objet récupéré de vscode -->
         <script>

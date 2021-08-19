@@ -1,3 +1,6 @@
 textarea.contenu {
     width: calc(100% - 1em) ;
 }
+.centre {
+    text-align: center ;
+}
