@@ -1,8 +1,8 @@
 {
   "name": "boedit",
   "displayName": "boEdit",
-  "description": "Fonctions de transformation de texte.",
-  "version": "0.1.0",
+  "description": "Fonctions de transformation multi-lignes.",
+  "version": "1.0.0",
   "publisher": "borakLeRouge",
   "icon": "icon.png",
   "repository": {
@@ -30,7 +30,7 @@
     "commands": [
       {
         "command": "boedit.edit",
-        "title": "boEdit - Transformation multiligne"
+        "title": "boEdit - Transformation multi-lignes"
       }
     ]
   },
