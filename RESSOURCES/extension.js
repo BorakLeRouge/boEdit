@@ -187,7 +187,7 @@ function getWebviewContent(context, webview) {
             </fieldset>
         
             <fieldset><legend>Travail sur lignes</legend>
-                <p><label for="rogn">Rognage des blancs : </label>
+                <p><label>Rognage des blancs : </label>
                     <select name="rogn" onchange="traitement()">
                         <option value="n" selected="selected">non</option>
                         <option value="g">gauche</option>
@@ -196,8 +196,12 @@ function getWebviewContent(context, webview) {
                     </select>
                 </p>
                 <p>
-                    <label for="="retirPar">Retirer les parenthèses</label>
                     <input name="retirPar" id="retirPar" type="checkbox" onchange="traitement()" />
+                    <label for="retirPar">Retirer les parenthèses / </label>
+                    <input name="retirApo" id="retirApo" type="checkbox" onchange="traitement()" />
+                    <label for="retirApo">Les apostrophes / </label>
+                    <input name="retirGui" id="retirGui" type="checkbox" onchange="traitement()" />
+                    <label for="retirGui">Les guillemets</label>
                 </p>
                 <p>
                     <label for="rempl">Remplacer </label>

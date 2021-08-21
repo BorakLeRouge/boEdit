@@ -21,8 +21,8 @@ La transformation utilisée (simplement par le dernier bloc):
 
 ### 1.0.0
 
-Version finalisée avec documentation et exemple.
+Version finalisée avec documentation et exemple.    
 
 ### 0.0.1
 
-Initialisation
+Initialisation.   

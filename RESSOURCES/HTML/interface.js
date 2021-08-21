@@ -11,20 +11,6 @@
 clog('interface') ;
 
 
-// ===============================================================================
-//   1   EEEEE  RRRR   EEEEE         A    RRRR   RRRR   III  V   V  EEEEE  EEEEE
-//  11   E      R   R  E            A A   R   R  R   R   I   V   V  E      E
-//   1   EEE    R   R  EEE         A   A  R   R  R   R   I   V   V  EEE    EEE
-//   1   E      RRRR   E           AAAAA  RRRR   RRRR    I    V V   E      E
-//   1   E      R  R   E           A   A  R  R   R  R    I    V V   E      E
-//  111  EEEEE  R   R  EEEEE       A   A  R   R  R   R  III    V    EEEEE  EEEEE
-// ===============================================================================
-// * * * 1ere Arrivée : demande de reception des parametres * * *
-vscode.postMessage({
-    action:  '1er Affichage'
-}) ;
-
-
 // ====================================================================================================================
 //  M   M  EEEEE   SSS    SSS     A     GGG   EEEEE       RRRR   EEEEE   CCC   EEEEE  PPPP   TTTTT  III   OOO   N   N
 //  MM MM  E      S      S       A A   G   G  E           R   R  E      C   C  E      P   P    T     I   O   O  NN  N
@@ -46,6 +32,20 @@ window.addEventListener('message', event => {
     }
 
 } )
+
+
+// ===============================================================================
+//   1   EEEEE  RRRR   EEEEE         A    RRRR   RRRR   III  V   V  EEEEE  EEEEE
+//  11   E      R   R  E            A A   R   R  R   R   I   V   V  E      E
+//   1   EEE    R   R  EEE         A   A  R   R  R   R   I   V   V  EEE    EEE
+//   1   E      RRRR   E           AAAAA  RRRR   RRRR    I    V V   E      E
+//   1   E      R  R   E           A   A  R  R   R  R    I    V V   E      E
+//  111  EEEEE  R   R  EEEEE       A   A  R   R  R   R  III    V    EEEEE  EEEEE
+// ===============================================================================
+// * * * 1ere Arrivée : demande de reception des parametres * * *
+vscode.postMessage({
+    action:  '1er Affichage'
+}) ;
 
 
 // =============================================================================================================

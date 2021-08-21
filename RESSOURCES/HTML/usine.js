@@ -116,6 +116,8 @@ let usine = {
             if(param.rogn == "gd") { r = r.trim() ; }
             // * * * Retire Parenthese * * *
             if(param.retirPar) { r = r.replaceAll('(', '').replaceAll(')', '') ; }
+            if(param.retirApo) { r = r.replaceAll("'", '') ; }
+            if(param.retirGui) { r = r.replaceAll('"', '') ; }
             // * * * Remplacement * * *
             if(param.rempl + param.by != '' ) { r = r.replaceAll(param.rempl, param.by) ; }
             if(param.rempl2 + param.by2 != '' ) { r = r.replaceAll(param.rempl2, param.by2) ; }
