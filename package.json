@@ -2,8 +2,13 @@
   "name": "boedit",
   "displayName": "boEdit",
   "description": "Fonctions de transformation de texte.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "publisher": "borakLeRouge",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BorakLeRouge/boEdit"
+  },
   "engines": {
     "vscode": "^1.46.0"
   },

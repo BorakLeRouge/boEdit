@@ -57,7 +57,7 @@ let usine = {
     setContenu(c) {
         c = c.replaceAll("\r\n", "\r").replaceAll("\n", "\r") ;
         this.contenu = c.split("\r") ;
-        for (let i = 0; i <= 9; i++) {
+        for (let i = 0; i <= 19; i++) {
             if (this.contenu[i] != undefined) {
                 this.contenuRed[i] = this.contenu[i] ;
             }
@@ -118,6 +118,8 @@ let usine = {
             if(param.retirPar) { r = r.replaceAll('(', '').replaceAll(')', '') ; }
             // * * * Remplacement * * *
             if(param.rempl + param.by != '' ) { r = r.replaceAll(param.rempl, param.by) ; }
+            if(param.rempl2 + param.by2 != '' ) { r = r.replaceAll(param.rempl2, param.by2) ; }
+            if(param.rempl3 + param.by3 != '' ) { r = r.replaceAll(param.rempl3, param.by3) ; }
             // * * * Retrait * * *
             if(param.rtrtG > 0) { r = r.substr(param.rtrtG) ; } 
             if(param.rtrtD > 0) { 
@@ -137,27 +139,13 @@ let usine = {
             // * * * fin traitement * * *
             res[i++] = r ;
         }
-        // * * * Retire Saut de ligne * * * 
-        if (param.rslB) {
-            cont = [...res] ;
-            res  = [] ;
-            res[0] = '' ;
-            i = 0 ;
-            let sep = '' ;
-            for (let lg of cont) {
-                if (param.rslLmt > 0) {
-                    if (res[i].length + lg.length + sep.length <= param.rslLmt) {
-                        res[i] += sep + lg ;
-                    } else {
-                        i = i + 1 ;
-                        res[i] = sep + lg ;
-                    }
-                } else {
-                    res[i] += sep + lg ;
-                }
-                sep = param.rsl ;
-            } 
-        } 
+        // * * * Prem et End * * *
+        if (param.prem != '') {
+            res[0] = param.prem + res[0] ;
+        }
+        if (param.end != '') {
+            res[res.length - 1] = res[res.length - 1] + param.end ;
+        }
         // * * * Retire tabulation * * *
         if (param.rtbB) {
             cont = [...res] ;
@@ -166,6 +154,30 @@ let usine = {
                 res.push(lg.replaceAll("\t", param.rtb)) ;
             }
         }
+        // * * * Retire Saut de ligne * * * 
+        if (param.rslB) {
+            cont = [...res] ;
+            res  = [] ;
+            res[0] = '' ;
+            i = 0 ;
+            let sepD = '' ;
+            let sepF = '' ;
+            for (let lg of cont) {
+                if (param.rslLmt > 0) {
+                    if (res[i].length + lg.length + sepF.length + ( 2 * sepD.length ) <= param.rslLmt) {
+                        res[i] += sepD + sepF + lg;
+                    } else {
+                        i = i + 1 ;
+                        res[i -1] = res[i -1] + sepD ;
+                        res[i] = sepF + lg ;
+                    }
+                } else {
+                    res[i] += sepD + sepF + lg ;
+                }
+                sepD = param.rsl ;
+                sepF = param.rslF ;
+            } 
+        } 
 
         // * * * Fin Traitement * * *
         if (!intermedaire) {

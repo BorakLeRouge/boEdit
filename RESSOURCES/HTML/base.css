@@ -1,5 +1,6 @@
 textarea.contenu {
     width: calc(100% - 1em) ;
+    margin-top: 0 ;
 }
 .centre {
     text-align: center ;
@@ -7,4 +8,7 @@ textarea.contenu {
 span.tabul {
     display: inline-block;
     width: 5em ;
+}
+p.extrait {
+    margin-bottom: 0 ;
 }

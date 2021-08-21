@@ -163,6 +163,7 @@ function getWebviewContent(context, webview) {
 
         <h1>boEdit - Traitements multi-lignes</h1>
           
+        <p class="extrait">Extrait de contrôle :</p>
         <textarea id="contenu" class="contenu" readonly="readonly" cols=80 rows=10></textarea>
 
         <!-- Les champs à récupérer -->
@@ -204,6 +205,16 @@ function getWebviewContent(context, webview) {
                     <input name="rempl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()"/>
                     <label for="by"> par </label>
                     <input name="by" id="by" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                    <br />
+                    <label for="rempl2">Remplacer </label>
+                    <input name="rempl2" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()"/>
+                    <label for="by2"> par </label>
+                    <input name="by2" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                    <br />
+                    <label for="rempl3">Remplacer </label>
+                    <input name="rempl3" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()"/>
+                    <label for="by3"> par </label>
+                    <input name="by3" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                 </p>
                 <p>
                     <label for="rtrtG">Retrait à gauche </label>
@@ -226,24 +237,33 @@ function getWebviewContent(context, webview) {
                 </p>
                 <p>
                     <label for="ajtG">Ajout à Gauche </label>
-                    <input name="ajtG" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                    <input name="ajtG" type="text" value="" size="10" onchange="traitement()" onkeyup="traitement()" />
                     <label for="ajtD"> ajout à droite </label>
-                    <input name="ajtD" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                    <input name="ajtD" type="text" value="" size="10" onchange="traitement()" onkeyup="traitement()" />
                 </p>
             </fieldset>
              
             <fieldset><legend>Retrait sauts de ligne et tabulations</legend>
                 <p>
-                    <input name="rslB" id="rslB" type="checkbox" onchange="traitement()" />
-                    <label for="rslB">Remplacer sauts de ligne par </label>
-                    <input name="rsl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
-                    <label for="rslLmt"> limité à </label>
-                    <input name="rslLmt" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" /> caractères.
+                    <label for="prem">Ajout début 1ère ligne </label>
+                    <input name="prem" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                </p>
+                <p>
+                    <label for="end">Ajout fin dernière ligne </label>
+                    <input name="end" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                 </p>
                 <p>
                     <input name="rtbB" id="rtbB" type="checkbox" onchange="traitement()" />
                     <label for="rtbB">Remplacer tabulation par </label>
                     <input name="rtb" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                </p>
+                <p>
+                    <input name="rslB" id="rslB" type="checkbox" onchange="traitement()" />
+                    <label for="rslB">Remplacer sauts de ligne par </label>
+                    <input name="rsl" type="text" value="" size="5" onchange="traitement()" onkeyup="traitement()" />
+                    <input name="rslF" type="text" value="" size="5" onchange="traitement()" onkeyup="traitement()" />
+                    <label for="rslLmt"> limité à </label>
+                    <input name="rslLmt" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" /> caractères.
                 </p>
             </fieldset>
              
