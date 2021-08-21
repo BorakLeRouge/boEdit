@@ -70,7 +70,6 @@ module.exports = {
 // ========================================================================================
 // * * * Appel WebView boEdit
 async function appelBoEdit(context) {
-	vscode.window.showInformationMessage('boEdit départ !');
 
     // * * * * * * * * * * * * * * * * * * * * *
 	// * * * Reception des lignes du texte * * *
