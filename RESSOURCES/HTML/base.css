@@ -4,3 +4,7 @@ textarea.contenu {
 .centre {
     text-align: center ;
 }
+span.tabul {
+    display: inline-block;
+    width: 5em ;
+}

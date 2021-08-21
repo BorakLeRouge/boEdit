@@ -80,6 +80,32 @@ let usine = {
         else if (intermedaire) { cont = this.contenu ; }
         else                   { cont = this.contenuRed ; }
         let res = [] ;
+        // * * * Ajout Saut de ligne * * * 
+        if (param.aslB) {
+            for (let lg of cont) {
+                if (param.aslG) {
+                    lg = lg.replaceAll(param.arsl, param.arsl + "\r\n") ;
+                } else {
+                    lg = lg.replaceAll(param.arsl, "\r\n") ;
+                }
+                res = [...res, ...lg.split("\r\n")] ;
+            } 
+            cont = [...res] ;
+            res  = [] ;
+        }
+        // * * * Ajout Tabulation * * * 
+        if (param.atbB) {
+            for (let lg of cont) {
+                if (param.atbG) {
+                    lg = lg.replaceAll(param.atbl, param.atbl + "\t") ;
+                } else {
+                    lg = lg.replaceAll(param.atbl, "\t") ;
+                }
+                res.push(lg) ;
+            } 
+            cont = [...res] ;
+            res  = [] ;
+        }
         //  * * * boucle sur ligne -  traitement lignes / lignes * * *
         let i = 0 ;
         for (let lg of cont) {
@@ -111,6 +137,37 @@ let usine = {
             // * * * fin traitement * * *
             res[i++] = r ;
         }
+        // * * * Retire Saut de ligne * * * 
+        if (param.rslB) {
+            cont = [...res] ;
+            res  = [] ;
+            res[0] = '' ;
+            i = 0 ;
+            let sep = '' ;
+            for (let lg of cont) {
+                if (param.rslLmt > 0) {
+                    if (res[i].length + lg.length + sep.length <= param.rslLmt) {
+                        res[i] += sep + lg ;
+                    } else {
+                        i = i + 1 ;
+                        res[i] = sep + lg ;
+                    }
+                } else {
+                    res[i] += sep + lg ;
+                }
+                sep = param.rsl ;
+            } 
+        } 
+        // * * * Retire tabulation * * *
+        if (param.rtbB) {
+            cont = [...res] ;
+            res  = [] ;
+            for (let lg of cont) {
+                res.push(lg.replaceAll("\t", param.rtb)) ;
+            }
+        }
+
+        // * * * Fin Traitement * * *
         if (!intermedaire) {
             this.contenuRes = res ;
             this.contenuAff = res.join("\r\n") ;

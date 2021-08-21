@@ -166,8 +166,27 @@ function getWebviewContent(context, webview) {
         <textarea id="contenu" class="contenu" readonly="readonly" cols=80 rows=10></textarea>
 
         <!-- Les champs à récupérer -->
+          
         <div id="donnees">
-            <fieldset><legend>Tavail sur lignes</legend>
+
+            <fieldset><legend>Ajout sauts de ligne et tabulations</legend>
+                <p>
+                    <input name="aslB" id="aslB" type="checkbox" onchange="traitement()" />
+                    <label for="aslB">Remplacer les caractères</label> 
+                    <input name="arsl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" /> par des sauts de ligne.
+                    <br />
+                    <span class="tabul"></span><input name="aslG" id="aslG" type="checkbox" onchange="traitement()" /> <label for="aslG">Garder le séparateur</label> 
+                </p>
+                <p>
+                    <input name="atbB" id="atbB" type="checkbox" onchange="traitement()" />
+                    <label for="atbB">Remplacer les caractères</label> 
+                    <input name="atbl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" /> par des tabulations
+                    <br />
+                    <span class="tabul"></span><input name="atbG" id="atbG" type="checkbox" onchange="traitement()" /> <label for="atbG">Garder le séparateur</label> 
+                </p>
+            </fieldset>
+        
+            <fieldset><legend>Travail sur lignes</legend>
                 <p><label for="rogn">Rognage des blancs : </label>
                     <select name="rogn" onchange="traitement()">
                         <option value="n" selected="selected">non</option>
@@ -182,15 +201,15 @@ function getWebviewContent(context, webview) {
                 </p>
                 <p>
                     <label for="rempl">Remplacer </label>
-                    <input name="rempl" type="text" value="" size="20" onchange="traitement()" />
+                    <input name="rempl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()"/>
                     <label for="by"> par </label>
-                    <input name="by" type="text" value="" size="20" onchange="traitement()" />
+                    <input name="by" id="by" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                 </p>
                 <p>
                     <label for="rtrtG">Retrait à gauche </label>
-                    <input name="rtrtG" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" />
+                    <input name="rtrtG" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" />
                     <label for="rtrtD"> Retrait à droite </label>
-                    <input name="rtrtD" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" />
+                    <input name="rtrtD" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" />
                 </p>
                 <p>
                     <label for="rogn2">Rognage des blancs après retrait: </label>
@@ -203,32 +222,39 @@ function getWebviewContent(context, webview) {
                 </p>
                 <p>
                     <label for="tronc">troncature et complément à </label>
-                    <input name="tronc" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" /> caractères
+                    <input name="tronc" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" /> caractères
                 </p>
                 <p>
                     <label for="ajtG">Ajout à Gauche </label>
-                    <input name="ajtG" type="text" value="" size="20" onchange="traitement()" />
+                    <input name="ajtG" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                     <label for="ajtD"> ajout à droite </label>
-                    <input name="ajtD" type="text" value="" size="20" onchange="traitement()" />
+                    <input name="ajtD" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                 </p>
             </fieldset>
-            <!-- 
-            <fieldset><legend>Travail sur sauts de ligne et tabulations</legend>
-                <p><label for="rsl">Remplacer sauts de ligne par </label>
-                <input name="rsl" type="text" value="" size="20" onchange="traitement()" />
-                <label for="rslLmt"> limité à </label>
-                <input name="rslLmt" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" /> caractères.
+             
+            <fieldset><legend>Retrait sauts de ligne et tabulations</legend>
+                <p>
+                    <input name="rslB" id="rslB" type="checkbox" onchange="traitement()" />
+                    <label for="rslB">Remplacer sauts de ligne par </label>
+                    <input name="rsl" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
+                    <label for="rslLmt"> limité à </label>
+                    <input name="rslLmt" type="number" value="" size="3" maxlength="3" min="0" max="999" onchange="traitement()" onkeyup="traitement()" /> caractères.
+                </p>
+                <p>
+                    <input name="rtbB" id="rtbB" type="checkbox" onchange="traitement()" />
+                    <label for="rtbB">Remplacer tabulation par </label>
+                    <input name="rtb" type="text" value="" size="20" onchange="traitement()" onkeyup="traitement()" />
                 </p>
             </fieldset>
-            -->
+             
         </div>
 
         <!-- Bouton d'envoi -->
         <p class="centre">Actions :</p>
         <p class="centre">
         <button name="final" id="final" type="button" onclick="annuler()" >Annuler</button> 
-        <button name="final" id="final" type="button" onclick="traitement(false, true)" >Validation temporaire</button> 
-        <button name="final" id="final" type="button" onclick="traitement(true)" >Validation des mises à jour</button> 
+        <button name="final" id="final" type="button" onclick="traitement(false, true)" >Validation intermédiaire</button> 
+        <button name="final" id="final" type="button" onclick="traitement(true)" >Validation finale des mises à jour</button> 
         </p>
 
         <!-- Objet récupéré de vscode -->

@@ -2,7 +2,7 @@
   "name": "boedit",
   "displayName": "boEdit",
   "description": "Fonctions de transformation de texte.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "borakLeRouge",
   "engines": {
     "vscode": "^1.46.0"
